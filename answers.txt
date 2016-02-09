@@ -1,0 +1,96 @@
+Exercise 1
+mysql> source data/import-table-structure.sql;
+mysql> use decodemtl_addressbook_import;
+
+Exercise 2
+mysql> insert into `Account` value(null, 'aliyah@gmail', 'thisnthat', 2-8-16, null);
+mysql> insert into `AddressBook` value(null, 1, 'aliyah', 02-08-16, null);
+mysql> insert into Entry value(null, 05, 'aliyah', 'jessa', 'march', 'home', 'phone', 'Line1-1', 'Line2-1', 'Line 3-1', 'Line4-1', 'Line5-1');
+mysql> insert into Entry value(null, 05, 'aliyah', 'jessa', 'march', 'home', 'phone', 'Line1-2', 'Line2-2', 'Line 3-2', 'Line4-2', 'Line5-2');
+mysql> insert into Entry value(null, 07, 'aliyah', 'jessa', 'march', 'home', 'phone', 'Line1-3', 'Line2-3', 'Line 3-3', 'Line4-3', 'Line5-3');
+
+Exercise 3
+mysql> select * from Account where email = 'aliyah@gmail';
+mysql> select * from AddressBook where name = 'aliyah';
+mysql> select * from Entry where firstName = 'aliyah';
+
+Exercise 4
+mysql> update Account set email = 'aliyahjessa@gmail.com' where email = 'aliyah@gmail';
+mysql> update AddressBook set name = 'aliyahmaliyah' where name = 'aliyah';
+mysql> update Entry set birthday = 1986-03-26, contentLineOne = 'First Line', contentLineTwo = 'Second Line', contentLineThree = 'Third Line' where birthday = null;
+
+Exercise 5
+mysql> truncate Entry;
+
+Exercise 6
+mysql> truncate Account;
+mysql> drop table Account;
+
+Exercise 7
+mysql> use decodemtl_addressbook_import;
+mysql> source data/import-account.sql
+mysql> source data/import-addressbook.sql;
+mysql> source data/import-entry.sql;
+
+Exercise 8
+a. consectetuer.rhoncus.Nullam@temporloremeget.org 
+b. Donec Incorporated              |
+| Ipsum Nunc LLC                  |
+| In Consectetuer Ltd             |
+| Lacus Aliquam Rutrum Industries |
+| Ac Ltd                          |
+| Mauris Consulting               |
+| Ornare Corporation              |
+| Donec Incorporated              |
+| Ipsum Nunc LLC                  |
+| In Consectetuer Ltd             |
+| Lacus Aliquam Rutrum Industries |
+| Ac Ltd                          |
+| Mauris Consulting               |
+| Ornare Corporation              |
+| Donec Incorporated              |
+| Ipsum Nunc LLC                  |
+| In Consectetuer Ltd             |
+| Lacus Aliquam Rutrum Industries |
+| Ac Ltd                          |
+| Mauris Consulting               |
+| Ornare Corporation  
+c. 2015-05-04
+
+Exercise 9
+a. 2000
+b. 100
+c. 3300
+
+Exercise 10
+mysql> select count(*) from Entry where birthday < '1982-02-12'; <-- 2687
+mysql> select count(*) from Entry where birthday > '1965-01-01'; <-- 2597
+mysql> select * from Entry where birthday = (select min(birthday) from Entry); <-- Abigail Rollins
+
+Exercise 11
+2800 mysql> select type, count(*) from Entry where not type = 'other';
+2800 mysql> select type, count(*) from Entry where type = 'home' or type = 'work' group by type;
+600 mysql> select type, count(*) from Entry where subtype = 'phone
+
+Exercise 12
+//most entries = addressBookId 37
+mysql> create or replace view `counted books` as select addressBookId, count(*) from Entry group by addressBookId;
+mysql> set @maxBooks = (select max(`count(*)`) from `counted books`);
+mysql> select * from `counted books` where `count(*)`= @maxBooks;
+
+//most addressbooks = accountId 5 & 14
+mysql> create or replace view `counted accounts` as select accountId, count(*) from AddressBook group by accountId;
+mysql> set @maxAccts = (select max(`count(*)`) from `counted accounts`);
+mysql> select * from `counted accounts` where `count(*)` = @maxAccts;
+
+Exercise 13
+mysql> select count(*) from Entry where contentLineOne > '(300) 000-0000' and contentLineOne < '(399) 999-9999'; <-- 39
+mysql> select count(*) from Entry where type= 'home' AND subtype='phone' AND contentLineOne not like '%5%'; <-- 76
+mysql> select count(*) from Entry where type='work'AND subtype='phone' AND contentLineOne like '_-%'; <-- 60
+
+Exercise 14
+mysql> create database Store;
+mysql> use Store;
+mysql> create table Inventory(`Date` datetime, `Item number` int auto_increment primary key, `Item company` varchar(255), `Item price` int, `Units available` int, `Units sold` int, `Units returned` int);
+mysql> create table Customers(`CustomerID` int auto_increment primary key, `First Name` varchar(255), `Last Name` varchar(255), `Street Address 1` varchar(255), `Street Address 2` varchar(255), `City` varchar(255), `Province` varchar(50), `Country` varchar(100));
+mysql> create table Invoices(`Date` datetime, `CustomerID` int, `InvoiceID` int, `ItemId` int, `InvoiceAmt` int, `InvoiceAmtPaid` int);
